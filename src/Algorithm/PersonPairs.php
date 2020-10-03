@@ -4,18 +4,18 @@ declare(strict_types = 1);
 
 namespace CodelyTV\FinderKata\Algorithm;
 
-final class PersonRepresentation
+final class PersonPairs
 {
-    /** @var Person */
-    public $person;
+    /** @var Person|null */
+    private $person;
 
-    /** @var Person */
-    public $olderPerson;
+    /** @var Person|null */
+    private $olderPerson;
 
     /** @var int */
-    public $ageDiff;
+    private $ageDiff;
 
-    public function hasSmallerAgeDiffThan(PersonRepresentation $personRepresentation): bool
+    public function hasSmallerAgeDiffThan(PersonPairs $personRepresentation): bool
     {
         return $this->ageDiff < $personRepresentation->ageDiff;
     }
@@ -28,7 +28,7 @@ final class PersonRepresentation
 
             return;
         }
-        $this->ageDiff = $this->olderPerson->birthDate->getTimestamp() - $this->person->birthDate->getTimestamp();
+        $this->ageDiff = $this->olderPerson->ageDiffThan($this->person);
     }
 
     public function withPerson(Person $person): self
@@ -47,5 +47,15 @@ final class PersonRepresentation
         $clone->refreshTimestampDiff();
 
         return $clone;
+    }
+
+    public function getPerson(): ?Person
+    {
+        return $this->person;
+    }
+
+    public function getOlderPerson(): ?Person
+    {
+        return $this->olderPerson;
     }
 }

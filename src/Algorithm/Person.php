@@ -9,10 +9,16 @@ use DateTime;
 final class Person
 {
     /** @var string */
-    public $name;
+    private $name;
 
     /** @var DateTime */
-    public $birthDate;
+    private $birthDate;
+
+    public function __construct(string $name, DateTime $birthDate)
+    {
+        $this->name      = $name;
+        $this->birthDate = $birthDate;
+    }
 
     public function getName(): string
     {
@@ -37,5 +43,10 @@ final class Person
     public function isYoungestThan(Person $person): bool
     {
         return $this->birthDate < $person->birthDate;
+    }
+
+    public function ageDiffThan(Person $person): int
+    {
+        return $this->birthDate->getTimestamp() - $person->getBirthDate()->getTimestamp();
     }
 }

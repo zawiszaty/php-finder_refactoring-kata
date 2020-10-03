@@ -6,14 +6,14 @@ declare(strict_types=1);
 namespace CodelyTV\FinderKata\Algorithm;
 
 
-final class PersonsRepresentationsBuilder
+final class PersonsPairBuilder
 {
     /**
      * @param Person[] $personsCollection
      *
-     * @return PersonRepresentation[]
+     * @return PersonPairs[]
      */
-    public function buildPersonsRepresentations(array $personsCollection): array
+    public function buildPersonsPairs(array $personsCollection): array
     {
         $personsRepresentations = [];
 
@@ -23,7 +23,7 @@ final class PersonsRepresentationsBuilder
 
             for ($j = $index + 1; $j < $count; $j++)
             {
-                $personRepresentation = new PersonRepresentation();
+                $personRepresentation = new PersonPairs();
                 $nextPerson           = $personsCollection[$j];
 
                 if ($person->isYoungestThan($nextPerson))

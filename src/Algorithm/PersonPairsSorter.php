@@ -6,25 +6,25 @@ declare(strict_types=1);
 namespace CodelyTV\FinderKata\Algorithm;
 
 
-final class PersonSorter
+final class PersonPairsSorter
 {
     /**
-     * @param PersonRepresentation[] $personsRepresentations
+     * @param PersonPairs[] $personsRepresentations
      *
-     * @return PersonRepresentation[]
+     * @return PersonPairs[]
      */
     public function sortByAge(array $personsRepresentations, int $comparison): array
     {
-        if ($comparison === Comparison::YOUNGEST)
+        if ($comparison === Comparison::CLOSEST)
         {
-            usort($personsRepresentations, static function (PersonRepresentation $representation1, PersonRepresentation $representation2) {
+            usort($personsRepresentations, static function (PersonPairs $representation1, PersonPairs $representation2) {
                 return $representation2->hasSmallerAgeDiffThan($representation1);
             });
 
             return $personsRepresentations;
         }
 
-        usort($personsRepresentations, static function (PersonRepresentation $representation1, PersonRepresentation $representation2) {
+        usort($personsRepresentations, static function (PersonPairs $representation1, PersonPairs $representation2) {
             return false === $representation2->hasSmallerAgeDiffThan($representation1);
         });
 

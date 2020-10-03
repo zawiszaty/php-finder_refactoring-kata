@@ -6,6 +6,6 @@ namespace CodelyTV\FinderKata\Algorithm;
 
 interface Comparison
 {
-    const YOUNGEST = 1;
-    const OLDEST   = 2;
+    public const CLOSEST = 1;
+    public const FURTHER = 2;
 }

@@ -8,32 +8,32 @@ final class Finder
 {
     /** @var Person[] */
     private $personsCollection;
-    /** @var PersonSorter */
+    /** @var PersonPairsSorter */
     private $personSorter;
-    /** @var PersonsRepresentationsBuilder */
-    private $personsRepresentationsBuilder;
+    /** @var PersonsPairBuilder */
+    private $personsPairBuilder;
 
     public function __construct(array $personsCollection)
     {
         $this->personsCollection             = $personsCollection;
-        $this->personSorter                  = new PersonSorter();
-        $this->personsRepresentationsBuilder = new PersonsRepresentationsBuilder();
+        $this->personSorter                  = new PersonPairsSorter();
+        $this->personsPairBuilder = new PersonsPairBuilder();
     }
 
-    public function find(int $comparison): PersonRepresentation
+    public function find(int $comparison): PersonPairs
     {
-        $personsRepresentations = $this->personsRepresentationsBuilder->buildPersonsRepresentations($this->personsCollection);
+        $personsRepresentations = $this->personsPairBuilder->buildPersonsPairs($this->personsCollection);
 
         if (count($personsRepresentations) < 1)
         {
-            return new PersonRepresentation();
+            return new PersonPairs();
         }
 
         return $this->getPersonRepresentationByComparison($personsRepresentations, $comparison);
     }
 
-    /** @param PersonRepresentation[] $personRepresentations */
-    protected function getPersonRepresentationByComparison(array $personRepresentations, int $comparison): PersonRepresentation
+    /** @param PersonPairs[] $personRepresentations */
+    protected function getPersonRepresentationByComparison(array $personRepresentations, int $comparison): PersonPairs
     {
         $personRepresentations = $this->personSorter->sortByAge($personRepresentations, $comparison);
 
