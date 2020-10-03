@@ -20,22 +20,32 @@ final class PersonRepresentation
         return $this->ageDiff < $personRepresentation->ageDiff;
     }
 
-    public function refreshTimestampDiff(): void
+    private function refreshTimestampDiff(): void
     {
+        if (null === $this->olderPerson || null === $this->person)
+        {
+            $this->ageDiff = 0;
+
+            return;
+        }
         $this->ageDiff = $this->olderPerson->birthDate->getTimestamp() - $this->person->birthDate->getTimestamp();
     }
 
     public function withPerson(Person $person): self
     {
-        $this->person = $person;
+        $clone         = clone $this;
+        $clone->person = $person;
+        $clone->refreshTimestampDiff();
 
-        return $this;
+        return $clone;
     }
 
     public function withOldestPerson(Person $person): self
     {
-        $this->olderPerson = $person;
+        $clone              = clone $this;
+        $clone->olderPerson = $person;
+        $clone->refreshTimestampDiff();
 
-        return $this;
+        return $clone;
     }
 }

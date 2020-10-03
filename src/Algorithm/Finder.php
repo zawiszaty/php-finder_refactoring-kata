@@ -10,50 +10,33 @@ final class Finder
     private $personsCollection;
     /** @var PersonSorter */
     private $personSorter;
+    /** @var PersonsRepresentationsBuilder */
+    private $personsRepresentationsBuilder;
 
     public function __construct(array $personsCollection)
     {
-        $this->personsCollection = $personsCollection;
-        $this->personSorter      = new PersonSorter();
+        $this->personsCollection             = $personsCollection;
+        $this->personSorter                  = new PersonSorter();
+        $this->personsRepresentationsBuilder = new PersonsRepresentationsBuilder();
     }
 
     public function find(int $comparison): PersonRepresentation
     {
-        $personRepresentations = $this->personSorter->sortByAge($this->personsCollection);
+        $personsRepresentations = $this->personsRepresentationsBuilder->buildPersonsRepresentations($this->personsCollection);
 
-        if (count($personRepresentations) < 1)
+        if (count($personsRepresentations) < 1)
         {
             return new PersonRepresentation();
         }
 
-        return $this->getPersonRepresentationByComparison($personRepresentations, $comparison);
+        return $this->getPersonRepresentationByComparison($personsRepresentations, $comparison);
     }
 
     /** @param PersonRepresentation[] $personRepresentations */
     protected function getPersonRepresentationByComparison(array $personRepresentations, int $comparison): PersonRepresentation
     {
-        $answer = $personRepresentations[0];
+        $personRepresentations = $this->personSorter->sortByAge($personRepresentations, $comparison);
 
-        foreach ($personRepresentations as $result)
-        {
-            switch ($comparison)
-            {
-                case Comparison::YOUNGEST:
-                    if ($result->hasSmallerAgeDiffThan($answer))
-                    {
-                        $answer = $result;
-                    }
-                    break;
-
-                case Comparison::OLDEST:
-                    if (false === $result->hasSmallerAgeDiffThan($answer))
-                    {
-                        $answer = $result;
-                    }
-                    break;
-            }
-        }
-
-        return $answer;
+        return $personRepresentations[0];
     }
 }

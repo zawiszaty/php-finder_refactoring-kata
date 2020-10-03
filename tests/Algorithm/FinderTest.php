@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace CodelyTV\FinderKataTest\Algorithm;
 
-use CodelyTV\FinderKata\Algorithm\Finder;
 use CodelyTV\FinderKata\Algorithm\Comparison;
+use CodelyTV\FinderKata\Algorithm\Finder;
 use CodelyTV\FinderKata\Algorithm\Person;
 use PHPUnit\Framework\TestCase;
 
@@ -23,8 +23,9 @@ final class FinderTest extends TestCase
     /** @var Person */
     private $mike;
 
-    protected function setUp()
+    protected function setUp(): void
     {
+        parent::setUp();
         $this->sue            = new Person();
         $this->sue->name      = "Sue";
         $this->sue->birthDate = new \DateTime("1950-01-01");
@@ -107,8 +108,8 @@ final class FinderTest extends TestCase
 
         $result = $finder->find(Comparison::OLDEST);
 
-        $this->assertEquals($this->sue, $result->person);
-        $this->assertEquals($this->sarah, $result->olderPerson);
+        self::assertEquals($this->sue, $result->person);
+        self::assertEquals($this->sarah, $result->olderPerson);
     }
 
     /**

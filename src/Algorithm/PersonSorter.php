@@ -9,36 +9,25 @@ namespace CodelyTV\FinderKata\Algorithm;
 final class PersonSorter
 {
     /**
-     * @param Person[] $persons
+     * @param PersonRepresentation[] $personsRepresentations
      *
      * @return PersonRepresentation[]
      */
-    public function sortByAge(array $persons): array
+    public function sortByAge(array $personsRepresentations, int $comparison): array
     {
-        $personRepresentations = [];
-
-        foreach ($persons as $index => $person)
+        if ($comparison === Comparison::YOUNGEST)
         {
-            $count = count($persons);
+            usort($personsRepresentations, static function (PersonRepresentation $representation1, PersonRepresentation $representation2) {
+                return $representation2->hasSmallerAgeDiffThan($representation1);
+            });
 
-            for ($j = $index + 1; $j < $count; $j++)
-            {
-                $personRepresentation = new PersonRepresentation();
-                $nextPerson           = $persons[$j];
-
-                if ($person->isYoungestThan($nextPerson))
-                {
-                    $personRepresentation->withPerson($person)->withOldestPerson($nextPerson);
-                }
-                else
-                {
-                    $personRepresentation->withPerson($nextPerson)->withOldestPerson($person);
-                }
-                $personRepresentation->refreshTimestampDiff();
-                $personRepresentations[] = $personRepresentation;
-            }
+            return $personsRepresentations;
         }
 
-        return $personRepresentations;
+        usort($personsRepresentations, static function (PersonRepresentation $representation1, PersonRepresentation $representation2) {
+            return false === $representation2->hasSmallerAgeDiffThan($representation1);
+        });
+
+        return $personsRepresentations;
     }
 }
